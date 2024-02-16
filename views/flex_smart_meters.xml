@@ -10,11 +10,7 @@
                     <header>
                         <field name="state" widget="statusbar" class="oe_highlight"
                                statusbar_visible="draft,assigned,need_reassigned"/>
-                        <button name="%(flex_smart_meters.action_to_assign_user)d" string="Assign User"
-                                context="{'default_project_id': active_id, 'default_action_type': 'assign_user'}"
-                                type="action"
-                                attrs="{'invisible': [('state', 'not in', ('draft', 'need_reassigned'))]}"
-                                class="oe_highlight"/>
+                        
                         <button name="cancel_project" string="Cancel" type="object"
                                 attrs="{'invisible': [('state', 'not in', ('need_reassigned', 'draft'))]}"
                                 class="oe_highlight"/>
