@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="smart_meter_form_view" model="ir.ui.view">
+            <field name="name">smart.meters.form</field>
+            <field name="model">smart.meters</field>
+            <field name="arch" type="xml">
+                <form string="Smart Meters">
+                    <header>
+                        <field name="state" widget="statusbar" class="oe_highlight"
+                               statusbar_visible="draft,assigned,need_reassigned"/>
+                        <button name="%(flex_smart_meters.action_to_assign_user)d" string="Assign User"
+                                context="{'default_project_id': active_id, 'default_action_type': 'assign_user'}"
+                                type="action"
+                                attrs="{'invisible': [('state', 'not in', ('draft', 'need_reassigned'))]}"
+                                class="oe_highlight"/>
+                        <button name="cancel_project" string="Cancel" type="object"
+                                attrs="{'invisible': [('state', 'not in', ('need_reassigned', 'draft'))]}"
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <h3>
+                            <field name="name" readonly="1"/>
+                        </h3>
+                        <group string="Main Information's">
+                            <field name="msdn"/>
+                            <field name="wf"/>
+                            <field name="wf_special_code"/>
+                            <field name="appointment"/>
+                            <field name="assigndate"/>
+                            <field name="service_type"/>
+                        </group>
+                        <group>
+                            <group string="Customer Information's">
+                                <field name="cus_name"/>
+                                <field name="phone"/>
+                                <field name="phone_2"/>
+                                <field name="isp"/>
+                                <field name="area"/>
+                                <field name="address"/>
+                            </group>
+                            <group string="Package Information's">
+                                <field name="speed"/>
+                                <field name="structure"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="activation_state"/>
+                            <field name="dispatcher_category"/>
+                            <field name="dispatcher_feedback"/>
+                        </group>
+                        <notebook>
+                            <page string="Jobs To Be Done">
+                                <group>
+                                    <group>
+                                        <field name="drop_joint_cableN"/>
+                                        <field name="drop_joint_cableF"/>
+                                        <field name="drop_joint_splicing"/>
+                                        <field name="branch_joint_splicing"/>
+                                        <field name="prime_joint_splicing"/>
+                                        <field name="bep_splicing"/>
+                                    </group>
+                                    <group>
+                                        <field name="bep_install"/>
+                                        <field name="indoor_cabling"/>
+                                        <field name="active_basic"/>
+                                        <field name="active_deco"/>
+                                        <field name="ucc"/>
+                                        <field name="zain_extender"/>
+                                    </group>
+                                    <br/>
+                                    <h3>Materials</h3>
+                                    <field name="project_material_ids">
+                                        <tree editable="bottom">
+                                            <field name="product_id"/>
+                                            <field name="qty"/>
+                                            <field name="note"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Assigned Users History">
+                                <group>
+                                    <field name="assigned_user" readonly="1"/>
+                                </group>
+                                <field name="assigned_users_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="smart_meter_id" invisible="1"/>
+                                        <field name="create_date" string="Assign Date"/>
+                                        <field name="user_id"/>
+                                        <!-- <field name="job_type_str"/> -->
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="smart_meter_id" invisible="1"/>
+                                            <field name="user_id"/>
+                                            <field name="create_date" string="Assign Date"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Users Response">
+                                <group>
+                                    <field name="feedback"/>
+                                </group>
+                                <field name="user_response_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="smart_meter_id" invisible="1"/>
+                                        <field name="user_response_id"/>
+                                        <field name="create_date" string="Date"/>
+                                        <field name="response"/>
+                                        <field name="status"/>
+                                        <field name="reason"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Dates">
+                                <group>
+                                    <group>
+                                        <field name="create_date" readonly="1"/>
+                                        <field name="assign_date" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="submit_date" invisible="1"/>
+                                        <field name="delivery_date"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="complete_date" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Other Information">
+                                <group>
+                                    <field name="technical_code"/>
+                                    <field name="parsel_code"/>
+                                    <field name="power_value"/>
+                                    <field name="street_name"/>
+                                    <field name="building_number"/>
+                                    <field name="project_note"/>
+                                </group>
+                            </page>
+                            <page string="Images">
+                                <field name="project_images_ids">
+                                    <tree>
+                                        <field name="smart_meter_id" invisible="1"/>
+                                        <field name="name"/>
+                                        <field name="image_256" widget="image" readonly="0"/>
+                                    </tree>
+                                    <form>
+                                        <field name="name"/>
+                                        <field name="image_1920" widget="image" readonly="0"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="smart_meter_tree_view" model="ir.ui.view">
+            <field name="name">smart.meters.tree</field>
+            <field name="model">smart.meters</field>
+            <field name="arch" type="xml">
+                <tree string="smart meter">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="assigned_user" decoration-bf="1" decoration-danger="2"/>
+                    <field name="feedback" decoration-bf="1" decoration-danger="2"/>
+                    <field name="state" decoration-bf="1" decoration-danger="2"/>
+                    <field name="appointment" decoration-bf="1" decoration-danger="2"/>
+                    <field name="dispatcher_feedback" decoration-bf="1" decoration-danger="2"/>
+                    <field name="dispatcher_category"/>
+                    <field name="msdn"/>
+                    <field name="wf"/>
+                    <field name="wf_special_code" optional="hide"/>
+                    <field name="cus_name"/>
+                    <field name="phone"/>
+                    <field name="phone_2" optional="hide"/>
+                    <field name="isp"/>
+                    <field name="area"/>
+                    <field name="speed" optional="hide"/>
+                    <field name="structure" optional="hide"/>
+                    <field name="address" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="smart_meter_act_window" model="ir.actions.act_window">
+            <field name="name">Smart Meter</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">smart.meters</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Smart Meters.
+                </p>
+            </field>
+            <field name="domain">[('state', 'in', ('draft', 'assigned', 'need_reassigned'))]</field>
+        </record>
+
+        <record id="action_smart_archive" model="ir.actions.act_window">
+            <field name="name">Archive</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">smart.meters</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'not in', ('draft', 'assigned', 'need_reassigned'))]</field>
+        </record>
+
+        <menuitem id="menu_smart_meter_root"
+                  name="Smart Meter"
+                  sequence="10"
+                  groups="flex_smart_meters.group_smart_meters"/>
+
+        <menuitem id="menu_workorder_root_smart_meter"
+                  name="Smart Meter Orders"
+                  parent="menu_smart_meter_root"
+                  action="smart_meter_act_window"
+                  sequence="10"
+                  groups="flex_smart_meters.group_smart_meters"/>
+
+        <menuitem id="menu_archive_root_smart_meter"
+                  name="Archive"
+                  parent="menu_smart_meter_root"
+                  action="action_smart_archive"
+                  sequence="10"
+                  groups="flex_smart_meters.group_smart_meters"/>
+
+        <record id="ftk_smart_meter_tree_actions" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="smart_meter_tree_view"/>
+            <field name="act_window_id" ref="action_smart_archive"/>
+        </record>
+
+        <record id="ftk_smart_meter_form_actions" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="smart_meter_form_view"/>
+            <field name="act_window_id" ref="action_smart_archive"/>
+        </record>
+
+    </data>
+</odoo>
